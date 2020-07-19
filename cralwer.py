@@ -1,12 +1,12 @@
-import json
-import datetime, time
-import os
-
-
-from utils import tools
 from config import project_config
+from typing import List
+from utils import tools
 
+import datetime, time
+import json
+import os
 import pandas as pd
+
 
 class Crawler:
     def __init__(self):
@@ -40,12 +40,11 @@ class Crawler:
     def store_data(self, data):
         self.df = pd.DataFrame(data, columns=['timestamp', 'low', 'high', 'open', 'close', 'vol'])
         self.df['time'] = self.df['timestamp'].apply(lambda x : datetime.datetime.fromtimestamp(x).isoformat())
-        
+
         self.df.to_csv(self.data_dir + self.data_name, mode='a', header=None, index=0)
 
 
     def run(self):
-
         if os.path.exists(self.data_dir + self.data_name):
             os.remove(self.data_dir + self.data_name)
 
